@@ -26,8 +26,27 @@ namespace Insurance.Tests
 
             var dto = new HomeController.InsuranceDto
                       {
-                          ProductId = 1,
+                          ProductId = 735246,
                       };
+            var sut = new HomeController();
+
+            var result = sut.CalculateInsurance(dto);
+
+            Assert.Equal(
+                expected: expectedInsuranceValue,
+                actual: result.InsuranceValue
+            );
+        }
+
+        [Fact]
+        public void CalculateInsurance_GivenSalesPriceLessThan500Euros_ShouldAdd500EurosToInsuranceCost()
+        {
+            const float expectedInsuranceValue = 500;
+
+            var dto = new HomeController.InsuranceDto
+            {
+                ProductId = 572770,
+            };
             var sut = new HomeController();
 
             var result = sut.CalculateInsurance(dto);
@@ -47,7 +66,7 @@ namespace Insurance.Tests
         {
             _host = new HostBuilder()
                    .ConfigureWebHostDefaults(
-                        b => b.UseUrls("http://localhost:5002")
+                        b => b.UseUrls("http://localhost:5000")
                               .UseStartup<ControllerTestStartup>()
                     )
                    .Build();
