@@ -1,6 +1,6 @@
 ## Github Reposiory:
 
-https://github.com/ericksavassa/insurence-api
+https://github.com/ericksavassa/insurance-api
 
 <br/>
 
@@ -9,7 +9,7 @@ https://github.com/ericksavassa/insurence-api
 ### Assumption/Decision Made:
 <br/>
 
-* Fixed the rule to add insurence cost on product with sale value less than 500 and changed the IF to avoid check *toInsure.ProductTypeHasInsurance* all the time
+* Fixed the rule to add insurance cost on product with sale value less than 500 and changed the IF to avoid check *toInsure.ProductTypeHasInsurance* all the time
 
 ![Task1.1](Task1_1.png "Task1.1")
 
