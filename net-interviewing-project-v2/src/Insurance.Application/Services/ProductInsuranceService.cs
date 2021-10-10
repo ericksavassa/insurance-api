@@ -1,5 +1,6 @@
 ﻿using Insurance.Application.Services.Interfaces;
 using Insurance.Domain.Interfaces.Repositories;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Insurance.Application.Services
@@ -28,6 +29,14 @@ namespace Insurance.Application.Services
             product.AddInsuranceValue(insuranceValue);
 
             return product.InsuranceValue;
+        }
+
+        public async Task<float> CalculateInsuranceToProductList(IList<int> productIdsList)
+        {
+            float toInsureValue = 0;
+            foreach (var productId in productIdsList)
+                toInsureValue += await CalculateProductInsurance(productId);            
+            return toInsureValue;
         }
 
         private float GetProductInsuranceBySalesPrice(float salesPrice)

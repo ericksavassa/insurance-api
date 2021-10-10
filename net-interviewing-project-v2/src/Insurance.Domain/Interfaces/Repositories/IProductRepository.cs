@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using Insurance.Domain.Entities;
+using System.Threading.Tasks;
 
 namespace Insurance.Domain.Interfaces.Repositories
 {
     public interface IProductRepository
     {
-        Task<Entities.Product> GetProduct(int productId);
+        Task<Product> GetProduct(int productId);
 
-        Task<Entities.ProductType> GetProductType(int productId);
+        Task<ProductType> GetProductType(int productId);
     }
 }

@@ -16,12 +16,28 @@ namespace Insurance.Api.Controllers
 
         [HttpPost]
         [Route("api/insurance/product")]
-        public async Task<IActionResult> CalculateInsurance([FromBody] ProductInsurenceDto productToInsure)
+        public async Task<IActionResult> CalculateProductInsurance([FromBody] ProductInsurenceDto productToInsure)
         {
+            if (!ModelState.IsValid)         
+                return BadRequest(ModelState); 
+
             var insuranceValue = await _productInsuranceService.CalculateProductInsurance(productToInsure.ProductId);
             productToInsure.InsuranceValue = insuranceValue;
 
             return Ok(productToInsure);
+        }
+
+        [HttpPost]
+        [Route("api/insurance/product-list")]
+        public async Task<IActionResult> CalculateInsuranceToProductList([FromBody] ProductListInsurenceDto productListToInsure)
+        {
+            if (!ModelState.IsValid)          
+                return BadRequest(ModelState); 
+
+            var insuranceValue = await _productInsuranceService.CalculateInsuranceToProductList(productListToInsure.ProductIds);
+            productListToInsure.InsuranceValue = insuranceValue;
+
+            return Ok(productListToInsure);
         }
     }
 }

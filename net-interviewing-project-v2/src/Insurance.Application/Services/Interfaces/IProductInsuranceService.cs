@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Insurance.Application.Services.Interfaces
 {
     public interface IProductInsuranceService
     {
         Task<float> CalculateProductInsurance(int productId);
+        Task<float> CalculateInsuranceToProductList(IList<int> productIdsList);
     }
 }
