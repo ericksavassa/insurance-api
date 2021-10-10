@@ -148,7 +148,7 @@ namespace Insurance.Tests.Application
             _productInsuranceService = new ProductInsuranceService(repository.Object);
 
             //act
-            var result = await _productInsuranceService.CalculateInsuranceToProductList(productList);
+            var result = await _productInsuranceService.CalculateInsuranceForProductList(productList);
 
             //assert
             Assert.Equal(
