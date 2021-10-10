@@ -31,7 +31,7 @@ namespace Insurance.Application.Services
             return product.InsuranceValue;
         }
 
-        public async Task<float> CalculateInsuranceToProductList(IList<int> productIdsList)
+        public async Task<float> CalculateInsuranceForProductList(IList<int> productIdsList)
         {
             float toInsureValue = 0;
             foreach (var productId in productIdsList)
