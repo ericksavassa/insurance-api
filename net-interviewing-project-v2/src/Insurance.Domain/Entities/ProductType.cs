@@ -9,15 +9,6 @@
         /// Contructor.
         /// </summary>
         /// <param name="id">Product type id.</param>
-        public ProductType(int id)
-        {
-            this.Id = id;
-        }
-
-        /// <summary>
-        /// Contructor.
-        /// </summary>
-        /// <param name="id">Product type id.</param>
         /// <param name="name">Product type name.</param>
         /// <param name="hasInsurance">Flag to check if product type calculate insurance.</param>
         public ProductType(int id, string name, bool hasInsurance)

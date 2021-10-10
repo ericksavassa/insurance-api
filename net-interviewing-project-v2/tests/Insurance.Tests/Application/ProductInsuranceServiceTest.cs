@@ -127,7 +127,7 @@ namespace Insurance.Tests.Application
         }
 
         [Fact]
-        public async Task CalculateInsuranceToProductList_Given2ProductsWithSalesPriceLessThan500_ShouldAdd1000ToInsuranceCost()
+        public async Task CalculateInsuranceForProductList_Given2ProductsWithSalesPriceLessThan500_ShouldAdd1000ToInsuranceCost()
         {
             //arrange
             const float expectedInsuranceValue = 1000;
@@ -139,6 +139,37 @@ namespace Insurance.Tests.Application
             Product product1 = BuildProduct(productId1, productTypeId, salesPrice: 300);
             Product product2 = BuildProduct(productId2, productTypeId, salesPrice: 300);
             ProductType productType = BuildProductType(productTypeId, name: "Type", hasInsurance: true);
+
+            var repository = new Mock<IProductRepository>();
+            repository.Setup(p => p.GetProduct(productId1)).ReturnsAsync(product1);
+            repository.Setup(p => p.GetProduct(productId2)).ReturnsAsync(product2);
+            repository.Setup(p => p.GetProductType(productTypeId)).ReturnsAsync(productType);
+
+            _productInsuranceService = new ProductInsuranceService(repository.Object);
+
+            //act
+            var result = await _productInsuranceService.CalculateInsuranceForProductList(productList);
+
+            //assert
+            Assert.Equal(
+                expected: expectedInsuranceValue,
+                actual: result
+            );
+        }
+
+        [Fact]
+        public async Task CalculateInsuranceForProductList_Given2ProductsThatAreDigitalCameras_ShouldAdd1500ToInsuranceCost()
+        {
+            //arrange
+            const float expectedInsuranceValue = 1500;
+            const int productId1 = 1;
+            const int productId2 = 2;
+            const int productTypeId = 10;
+            var productList = new List<int>() { productId1, productId2 };
+
+            Product product1 = BuildProduct(productId1, productTypeId, salesPrice: 300);
+            Product product2 = BuildProduct(productId2, productTypeId, salesPrice: 300);
+            ProductType productType = BuildProductType(productTypeId, name: "Digital cameras", hasInsurance: true);
 
             var repository = new Mock<IProductRepository>();
             repository.Setup(p => p.GetProduct(productId1)).ReturnsAsync(product1);

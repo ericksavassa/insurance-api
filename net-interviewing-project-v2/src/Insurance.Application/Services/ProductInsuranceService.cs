@@ -1,6 +1,8 @@
 ﻿using Insurance.Application.Services.Interfaces;
+using Insurance.Domain.Entities;
 using Insurance.Domain.Interfaces.Repositories;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Insurance.Application.Services
@@ -16,27 +18,41 @@ namespace Insurance.Application.Services
 
         public async Task<float> CalculateProductInsurance(int productId)
         {
+            var product = await CalculateProductInsuranceByProductId(productId);
+            return product.InsuranceValue;
+        }
+        public async Task<float> CalculateInsuranceForProductList(IList<int> productIdsList)
+        {
+            float toInsureValue = 0;
+            var productList = new List<Product>();
+
+            foreach (var productId in productIdsList)
+            {
+                var product = await CalculateProductInsuranceByProductId(productId);
+                toInsureValue += product.InsuranceValue;
+                productList.Add(product);
+            }
+            
+            toInsureValue += GetInsuranceForProductListByProductType(productList);
+            return toInsureValue;
+        }
+
+        private async Task<Product> CalculateProductInsuranceByProductId(int productId)
+        {
             var product = await _productRepository.GetProduct(productId);
             var productType = await _productRepository.GetProductType(product.ProductTypeId);
+            product.SetProductType(productType);
 
             if (!productType.HasInsurance)
-                return 0;
+                return product;
 
             var insuranceValue = GetProductInsuranceBySalesPrice(product.SalesPrice);
             product.AddInsuranceValue(insuranceValue);
 
-            insuranceValue = GetProductInsuranceByType(productType.Name);
+            insuranceValue = GetProductInsuranceByType(product.ProductType.Name);
             product.AddInsuranceValue(insuranceValue);
 
-            return product.InsuranceValue;
-        }
-
-        public async Task<float> CalculateInsuranceForProductList(IList<int> productIdsList)
-        {
-            float toInsureValue = 0;
-            foreach (var productId in productIdsList)
-                toInsureValue += await CalculateProductInsurance(productId);            
-            return toInsureValue;
+            return product;
         }
 
         private float GetProductInsuranceBySalesPrice(float salesPrice)
@@ -54,6 +70,14 @@ namespace Insurance.Application.Services
         private float GetProductInsuranceByType(string productType)
         {
             if (productType == "Laptops" || productType == "Smartphones")
+                return 500;
+
+            return 0;
+        }
+
+        private float GetInsuranceForProductListByProductType(List<Product> productsList)
+        {
+            if(productsList.Any(p => p.ProductType.HasInsurance && p.ProductType.Name == "Digital cameras"))
                 return 500;
 
             return 0;

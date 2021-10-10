@@ -25,6 +25,7 @@
         public float InsuranceValue { get; private set; }
         public float SalesPrice { get; private set; }
         public int ProductTypeId { get; private set; }
+        public ProductType ProductType { get; private set; }
 
         /// <summary>
         /// Add value to insurance of the product.
@@ -33,6 +34,11 @@
         public void AddInsuranceValue(float value)
         {
             this.InsuranceValue += value;
+        }
+
+        public void SetProductType(ProductType productType)
+        {
+            this.ProductType = productType;
         }
     }
 }
