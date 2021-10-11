@@ -325,7 +325,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/insurance/surcharge",
+					"raw": "https://localhost:5001/api/surcharge",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -333,7 +333,6 @@
 					"port": "5001",
 					"path": [
 						"api",
-						"insurance",
 						"surcharge"
 					]
 				}
