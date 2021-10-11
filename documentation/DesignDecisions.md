@@ -55,5 +55,5 @@ and it is easy to implement some S.O.L.I.D principles and it is clean to underst
 
 <br/>
 
-* New rule implemented, changing the method that was already implemented to return product instead of just insurance value
-
+* New rule implemented, using MongoDB to save Surcharge Rates, I decided for mongo because it is easy to up a container with docker and the implementation is simple too, to up mongo the docker-compose is in the devops folder.
+* For this Task I didn't check if product Type exists before save surcharge rate by product type id, I just realized that but it can be implemented easily, just getting the productType from product-repository
