@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Insurance.Api.Dtos
+namespace Insurance.Domain.Dtos
 {
     public class ProductListInsurenceDto
     {

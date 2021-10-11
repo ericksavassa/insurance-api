@@ -10,10 +10,12 @@ namespace Insurance.Application.Services
     public class ProductInsuranceService : IProductInsuranceService
     {
         private readonly IProductRepository _productRepository;
+        private readonly ISurchargeRepository _surchargeRepository;
 
-        public ProductInsuranceService(IProductRepository productRepository)
+        public ProductInsuranceService(IProductRepository productRepository, ISurchargeRepository surchargeRepository)
         {
             _productRepository = productRepository;
+            _surchargeRepository = surchargeRepository;
         }
 
         public async Task<float> CalculateProductInsurance(int productId)
@@ -21,6 +23,7 @@ namespace Insurance.Application.Services
             var product = await CalculateProductInsuranceByProductId(productId);
             return product.InsuranceValue;
         }
+
         public async Task<float> CalculateInsuranceForProductList(IList<int> productIdsList)
         {
             float toInsureValue = 0;
@@ -51,6 +54,9 @@ namespace Insurance.Application.Services
 
             insuranceValue = GetProductInsuranceByType(product.ProductType.Name);
             product.AddInsuranceValue(insuranceValue);
+            
+            var surchargeRate = await GetSurchargeRate(product.ProductTypeId);
+            product.AddInsuranceValue(surchargeRate);
 
             return product;
         }
@@ -80,6 +86,14 @@ namespace Insurance.Application.Services
             if(productsList.Any(p => p.ProductType.HasInsurance && p.ProductType.Name == "Digital cameras"))
                 return 500;
 
+            return 0;
+        }
+
+        private async Task<float> GetSurchargeRate(int productTypeId)
+        {
+            var surcharge = await _surchargeRepository.GetByProductTypeId(productTypeId);
+            if (surcharge != null)
+                return surcharge.SurchargeRate;
             return 0;
         }
     }

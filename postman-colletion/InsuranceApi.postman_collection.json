@@ -6,6 +6,102 @@
 	},
 	"item": [
 		{
+			"name": "POST - 2ProductsWithSalesPriceLessThan500",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('2ProductsWithSalesPriceLessThan500 - Status Code is 200', function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('2ProductsWithSalesPriceLessThan500 - Insurance Value Should Be 1000', function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.insuranceValue).to.eql(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ProductIds\": [572770, 805073]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/insurance/product-list",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"insurance",
+						"product-list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - 2ProductsDigitalCameras",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('2ProductsDigitalCameras - Status Code is 200', function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('2ProductsDigitalCameras - Insurance Value Should Be 2000', function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.insuranceValue).to.eql(2000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ProductIds\": [572770, 836194]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/insurance/product-list",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"insurance",
+						"product-list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "POST - SalesPriceLessThan500",
 			"event": [
 				{
@@ -61,11 +157,11 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test('SalesPriceLessThan500 - Status Code is 200', function(){\r",
+							"pm.test('SalesPriceBetween500And2000 - Status Code is 200', function(){\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test('SalesPriceLessThan500 - Insurance Value Should Be 1000', function(){\r",
+							"pm.test('SalesPriceBetween500And2000 - Insurance Value Should Be 1000', function(){\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData.productId).to.eql(735246);\r",
 							"    pm.expect(jsonData.insuranceValue).to.eql(1000);\r",
@@ -104,17 +200,17 @@
 			"response": []
 		},
 		{
-			"name": "POST - Laptop or Smartphone",
+			"name": "POST - LaptopOrSmartphone",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test('SalesPriceLessThan500 - Status Code is 200', function(){\r",
+							"pm.test('LaptopOrSmartphone - Status Code is 200', function(){\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test('SalesPriceLessThan500 - Insurance Value Should Be 1000', function(){\r",
+							"pm.test('LaptopOrSmartphone - Insurance Value Should Be 1500', function(){\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData.productId).to.eql(858421);\r",
 							"    pm.expect(jsonData.insuranceValue).to.eql(1500);\r",
@@ -153,17 +249,17 @@
 			"response": []
 		},
 		{
-			"name": "POST - Can not be Insured",
+			"name": "POST - CanNotBeInsured",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test('SalesPriceLessThan500 - Status Code is 200', function(){\r",
+							"pm.test('CanNotBeInsured - Status Code is 200', function(){\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test('SalesPriceLessThan500 - Insurance Value Should Be 2000', function(){\r",
+							"pm.test('CanNotBeInsured - Insurance Value Should Be 0', function(){\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData.productId).to.eql(735296);\r",
 							"    pm.expect(jsonData.insuranceValue).to.eql(0);\r",
@@ -202,11 +298,64 @@
 			"response": []
 		},
 		{
+			"name": "POST - Surcharge",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('CanNotBeInsured - Status Code is 200', function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"productTypeId\": 12,\r\n        \"surchargeRate\": 20\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/insurance/surcharge",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"insurance",
+						"surcharge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GET - Products",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": "http://localhost:5002/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"products"
+					]
+				}
 			},
 			"response": []
 		},
@@ -215,7 +364,17 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": "http://localhost:5002/product_types",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"product_types"
+					]
+				}
 			},
 			"response": []
 		}

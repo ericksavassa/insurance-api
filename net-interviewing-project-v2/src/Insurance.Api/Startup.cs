@@ -2,6 +2,9 @@ using Insurance.Api.Middleware;
 using Insurance.Application.Services;
 using Insurance.Application.Services.Interfaces;
 using Insurance.Domain.Interfaces.Repositories;
+using Insurance.Infrastructure.Repositories.MongoDb;
+using Insurance.Infrastructure.Repositories.MongoDb.Context;
+using Insurance.Infrastructure.Repositories.MongoDb.Dtos;
 using Insurance.Infrastructure.Repositories.ProductApi;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,9 +35,21 @@ namespace Insurance.Api
             {
                 client.BaseAddress = new Uri(productApiUrl);
             });
+            services.AddSingleton<IProductRepository, ProductRepository>();
+
+            SurchargeMap.Configure();
+            var mongoConfig = new MongoDBConfig();
+            Configuration.Bind("MongoDB", mongoConfig);
+            services.AddSingleton(mongoConfig);
+            var mongoContext = new InsuranceContext(mongoConfig);
+            var surchargeMongoRepository = new SurchargeDbRepository(mongoContext);
+            services.AddSingleton<ISurchargeRepository>(surchargeMongoRepository);
+
+
 
             services.AddScoped<IProductInsuranceService, ProductInsuranceService>();
-            services.AddSingleton<IProductRepository, ProductRepository>();
+            services.AddScoped<ISurchargeService, SurchargeService>();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

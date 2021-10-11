@@ -1,5 +1,5 @@
-using Insurance.Api.Dtos;
 using Insurance.Application.Services.Interfaces;
+using Insurance.Domain.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
